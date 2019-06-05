@@ -14,6 +14,7 @@ import org.pcap4j.util.ByteArrays;
 import org.pcap4j.util.MacAddress;
 
 import net.xipfs.tinytcp.Protocol;
+import net.xipfs.tinytcp.Tinytcp;
 import net.xipfs.tinytcp.datalinklayer.DatalinkLayer;
 
 /**
@@ -80,7 +81,7 @@ public class ARP implements Protocol{
 	 * 分析 Arp 数据包
 	 */
 	@Override
-	public void analyze(EthernetPacket packet) throws Exception {
+	public void analyze(Packet packet) throws Exception {
 		byte[] bytes = packet.getRawData();
 		//Utils.printHexString(bytes);
 		
@@ -96,14 +97,19 @@ public class ARP implements Protocol{
 		aheader.getSrcProtocolAddr();
 		aheader.getDstHardwareAddr();
 		aheader.getDstProtocolAddr();
-		System.out.println(packet);
+		if(Tinytcp.cfg.get("arp.show").equals("1")) {
+			System.out.println(packet);
+		}
 	}
 	
 	/**
 	 * 构建 Arp 数据包，然后发送出去
 	 */
 	public static void sendArpPacket(String srcMac, String srcIp,String dstIp) {
-		  MacAddress SRC_MAC_ADDR = MacAddress.getByName(srcMac);
+		System.out.println(srcMac);
+		System.out.println(srcIp);
+		System.out.println(dstIp);
+          MacAddress SRC_MAC_ADDR = MacAddress.getByName(srcMac);
 	      ArpPacket.Builder arpBuilder = new ArpPacket.Builder();
 	      try {
 	        arpBuilder

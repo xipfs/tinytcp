@@ -1,6 +1,6 @@
 package net.xipfs.tinytcp;
 
-import org.pcap4j.packet.EthernetPacket;
+import org.pcap4j.packet.Packet;
 
 /**
  * 
@@ -8,5 +8,5 @@ import org.pcap4j.packet.EthernetPacket;
  *
  */
 public interface Protocol {
-	void analyze(EthernetPacket packet) throws Exception;
+	void analyze(Packet packet) throws Exception;
 }

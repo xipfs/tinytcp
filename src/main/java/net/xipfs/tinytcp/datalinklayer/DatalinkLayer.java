@@ -75,11 +75,11 @@ public class DatalinkLayer {
 		if(eheader.getType().compareTo(EtherType.ARP) == 0) {
 			// arp 消息在数据链路层处理
 			new ARP().analyze(epacket);
-		}else if(eheader.getType().compareTo(EtherType.IPV4) == 0) {
+		}else if(eheader.getType().compareTo(EtherType.IPV4) == 0 || eheader.getType().compareTo(EtherType.IPV6) == 0) {
 			// 交给网络层分析消息
-			networklayer.analyze(packet);
+			networklayer.receivePacket(packet);
 		}else {
-			System.out.println(packet);
+			// System.out.println(packet);
 		}
 	}
 	public void sendPacket(){

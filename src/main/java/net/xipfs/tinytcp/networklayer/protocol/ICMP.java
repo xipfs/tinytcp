@@ -1,6 +1,6 @@
 package net.xipfs.tinytcp.networklayer.protocol;
 
-import org.pcap4j.packet.EthernetPacket;
+import org.pcap4j.packet.Packet;
 
 import net.xipfs.tinytcp.Protocol;
 
@@ -32,7 +32,7 @@ import net.xipfs.tinytcp.Protocol;
 public class ICMP implements Protocol{
 
 	@Override
-	public void analyze(EthernetPacket packet) throws Exception {
+	public void analyze(Packet packet) throws Exception {
 		
 	}
 

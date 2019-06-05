@@ -1,5 +1,7 @@
 package net.xipfs.tinytcp;
 
+import java.util.Properties;
+
 import org.pcap4j.core.BpfProgram.BpfCompileMode;
 import org.pcap4j.core.PcapAddress;
 import org.pcap4j.core.PcapHandle;
@@ -44,7 +46,10 @@ public class Tinytcp {
 	public static final int READ_TIMEOUT = 5; // 超时
 	public static final int BUFFER_SIZE = 1024*1024; // 缓冲区大小
 	public static PcapNetworkInterface nif;
+	public static Properties cfg = new Properties();
 	public static void main(String[] args) throws Exception {
+		cfg.load(Tinytcp.class.getResourceAsStream("tinytcp.cfg"));
+		
 		// 设置过滤器，参见 wireshark
 		String filter = args.length != 0 ? args[0] : ""; 
 		// 选择网络设备
@@ -72,6 +77,6 @@ public class Tinytcp {
 		new DatalinkLayer(receiveHandle,sendHandle).open();	
 		
 		// 测试发送一个 arp 包
-		ARP.sendArpPacket("34:e1:2d:44:13:8f", "10.109.21.212", "10.109.23.254");
+		ARP.sendArpPacket((String)cfg.get("arp.test.srcMac"),(String)cfg.get("arp.test.srcIp"),(String)cfg.get("arp.test.dstIp"));
 	}
 }
