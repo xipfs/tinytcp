@@ -11,6 +11,7 @@ import org.pcap4j.util.NifSelector;
 
 import net.xipfs.tinytcp.datalinklayer.DatalinkLayer;
 import net.xipfs.tinytcp.datalinklayer.protocol.ARP;
+import net.xipfs.tinytcp.networklayer.protocol.ICMP;
 
 /**
  * 网络数据分析
@@ -51,7 +52,7 @@ public class Tinytcp {
 		cfg.load(Tinytcp.class.getResourceAsStream("tinytcp.cfg"));
 		
 		// 设置过滤器，参见 wireshark
-		String filter = args.length != 0 ? args[0] : ""; 
+		String filter = ""; 
 		// 选择网络设备
 		nif = new NifSelector().selectNetworkInterface();
 		System.out.println(nif.getName() + " (" + nif.getDescription() + ")");
@@ -78,5 +79,10 @@ public class Tinytcp {
 		
 		// 测试发送一个 arp 包
 		ARP.sendArpPacket((String)cfg.get("arp.test.srcMac"),(String)cfg.get("arp.test.srcIp"),(String)cfg.get("arp.test.dstIp"));
+		
+		// 等待5秒
+		Thread.sleep(1000*5);
+		
+		ICMP.sendIcmpPacket((String)cfg.get("arp.test.srcIp"), (String)cfg.get("arp.test.srcMac"), (String)cfg.get("arp.test.dstIp"),ARP.tables.get("/"+(String)cfg.get("arp.test.dstIp")));
 	}
 }

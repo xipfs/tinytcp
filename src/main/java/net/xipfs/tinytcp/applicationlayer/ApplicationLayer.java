@@ -1,5 +1,7 @@
 package net.xipfs.tinytcp.applicationlayer;
 
+import org.pcap4j.packet.Packet;
+
 /**
  * 应用层
  * 
@@ -7,5 +9,9 @@ package net.xipfs.tinytcp.applicationlayer;
  *
  */
 public class ApplicationLayer {
+
+	public void receivePacket(Packet packet) {
+		
+	}
 
 }

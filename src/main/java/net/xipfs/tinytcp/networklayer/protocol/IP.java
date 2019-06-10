@@ -92,8 +92,9 @@ public class IP implements Protocol{
 			}
 			// ICMPV4 协议
 			if(iheader.getProtocol().compareTo(IpNumber.ICMPV4) ==0 ) {
-				System.out.println(packet);
+				new ICMP().analyze(packet);
 			}
+		
 		}else if(packet.contains(IpV6Packet.class)) {
 			IpV6Packet ipacket = packet.get(IpV6Packet.class);
 			IpV6Header iheader = ipacket.getHeader();
@@ -105,10 +106,12 @@ public class IP implements Protocol{
 			iheader.getHopLimit();
 			iheader.getSrcAddr();
 			iheader.getDstAddr();
-			
+			if(Tinytcp.cfg.get("ip.show").equals("1")) {
+				System.out.println(iheader);
+			}
 			// ICMPV6 协议
 			if(iheader.getProtocol().compareTo(IpNumber.ICMPV6) ==0 ) {
-				
+				new ICMP().analyze(packet);
 			}
 		}
 	}

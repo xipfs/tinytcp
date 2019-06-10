@@ -2,6 +2,8 @@ package net.xipfs.tinytcp.datalinklayer.protocol;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.pcap4j.packet.ArpPacket;
 import org.pcap4j.packet.ArpPacket.ArpHeader;
@@ -76,7 +78,7 @@ import net.xipfs.tinytcp.datalinklayer.DatalinkLayer;
  */
 
 public class ARP implements Protocol{
-	
+	public static Map<String,String> tables = new HashMap<>();
 	/**
 	 * 分析 Arp 数据包
 	 */
@@ -97,6 +99,7 @@ public class ARP implements Protocol{
 		aheader.getSrcProtocolAddr();
 		aheader.getDstHardwareAddr();
 		aheader.getDstProtocolAddr();
+		tables.put(aheader.getDstProtocolAddr().toString(), aheader.getDstHardwareAddr().toString());
 		if(Tinytcp.cfg.get("arp.show").equals("1")) {
 			System.out.println(packet);
 		}
@@ -106,9 +109,6 @@ public class ARP implements Protocol{
 	 * 构建 Arp 数据包，然后发送出去
 	 */
 	public static void sendArpPacket(String srcMac, String srcIp,String dstIp) {
-		System.out.println(srcMac);
-		System.out.println(srcIp);
-		System.out.println(dstIp);
           MacAddress SRC_MAC_ADDR = MacAddress.getByName(srcMac);
 	      ArpPacket.Builder arpBuilder = new ArpPacket.Builder();
 	      try {
